@@ -26,7 +26,6 @@ type StandardClaims struct {
 	Audience  string `json:"aud,omitempty"`
 	ExpiresAt int64  `json:"exp,omitempty"`
 	Id        string `json:"jti,omitempty"`
-	IssuedAt  int64  `json:"iat,omitempty"`
 	Issuer    string `json:"iss,omitempty"`
 	NotBefore int64  `json:"nbf,omitempty"`
 	Subject   string `json:"sub,omitempty"`
@@ -54,11 +53,6 @@ func (c StandardClaims) Valid(opts *ValidationOptions) error {
 		vErr.Errors |= ValidationErrorExpired
 	}
 
-	if c.VerifyIssuedAt(now, false) == false {
-		vErr.Inner = fmt.Errorf("Token used before issued")
-		vErr.Errors |= ValidationErrorIssuedAt
-	}
-
 	if c.VerifyNotBefore(now+leeway, false) == false {
 		vErr.Inner = fmt.Errorf("token is not valid yet")
 		vErr.Errors |= ValidationErrorNotValidYet
@@ -81,12 +75,6 @@ func (c *StandardClaims) VerifyAudience(cmp string, req bool) bool {
 // If required is false, this method will return true if the value matches or is unset
 func (c *StandardClaims) VerifyExpiresAt(cmp int64, req bool) bool {
 	return verifyExp(c.ExpiresAt, cmp, req)
-}
-
-// Compares the iat claim against cmp.
-// If required is false, this method will return true if the value matches or is unset
-func (c *StandardClaims) VerifyIssuedAt(cmp int64, req bool) bool {
-	return verifyIat(c.IssuedAt, cmp, req)
 }
 
 // Compares the iss claim against cmp.

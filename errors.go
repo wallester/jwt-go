@@ -20,7 +20,6 @@ const (
 	// Standard Claim validation errors
 	ValidationErrorAudience      // AUD validation failed
 	ValidationErrorExpired       // EXP validation failed
-	ValidationErrorIssuedAt      // IAT validation failed
 	ValidationErrorIssuer        // ISS validation failed
 	ValidationErrorNotValidYet   // NBF validation failed
 	ValidationErrorId            // JTI validation failed
