@@ -16,7 +16,7 @@ type Claims interface {
 // Options passed in to Claims.Valid
 // Currently only supports Leeway (more coming soon)
 type ValidationOptions struct {
-	Leeway int64 // allow a bit (a minute or so) of extra time to allow for clock sku
+	Leeway int64 // allow a bit (a minute or so) of extra time to allow for clock skew
 }
 
 // Structured version of Claims Section, as referenced at
