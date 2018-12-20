@@ -31,9 +31,8 @@ type StandardClaims struct {
 	Subject   string `json:"sub,omitempty"`
 }
 
-// Validates time based claims "exp, iat, nbf".
-// There is no accounting for clock skew.
-// As well, if any of the above claims are not in the token, it will still
+// Validates time based claims "exp, nbf".
+// If any of the above claims are not in the token, it will still
 // be considered a valid claim.
 func (c StandardClaims) Valid(opts *ValidationOptions) error {
 	vErr := new(ValidationError)
@@ -107,13 +106,6 @@ func verifyExp(exp int64, now int64, required bool) bool {
 		return !required
 	}
 	return now <= exp
-}
-
-func verifyIat(iat int64, now int64, required bool) bool {
-	if iat == 0 {
-		return !required
-	}
-	return now >= iat
 }
 
 func verifyIss(iss string, cmp string, required bool) bool {

@@ -50,9 +50,8 @@ func (m MapClaims) VerifyNotBefore(cmp int64, req bool) bool {
 	return req == false
 }
 
-// Validates time based claims "exp, iat, nbf".
-// There is no accounting for clock skew.
-// As well, if any of the above claims are not in the token, it will still
+// Validates time based claims "exp, nbf".
+// If any of the above claims are not in the token, it will still
 // be considered a valid claim.
 func (m MapClaims) Valid(opts *ValidationOptions) error {
 	vErr := new(ValidationError)
